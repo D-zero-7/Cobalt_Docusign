@@ -6,7 +6,7 @@ const dotenv = require('dotenv').config({ path: './.env' });
 const fs = require('fs');
 const session = require('express-session');
 
-const port = 5000;
+const port = 8000;
 
 const app = express();
 
@@ -108,7 +108,8 @@ async function checkToken(request) {
 			process.env.INTEGRATION_KEY,
 			process.env.USER_ID,
 			'signature',
-			fs.readFileSync(path.join(__dirname, 'secret.key')),
+			// fs.readFileSync(path.join(__dirname, 'secret.key')),
+			process.env.PRIVATE_KEY,
 			3600
 		);
 		console.log(results.body);
@@ -130,6 +131,6 @@ app.get('/', async function (request, response) {
 
 // account-d.docusign.com/oauth/auth?response_type=code&scope=signature%20impersonation&client_id=514b20d0-0707-4081-a270-6df9c329a692 &redirect_uri=http://localhost:5000/
 
-app.listen(port, () => {
-	console.log('the app is listening on port:5000', process.env.USER_ID);
+app.listen(process.env.PORT || port, () => {
+	console.log('the app is listening on port:8000', process.env.USER_ID);
 });
